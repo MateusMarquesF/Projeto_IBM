@@ -1,0 +1,51 @@
+package br.com.algoris.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import br.com.algoris.beans.Aluno;
+import br.com.algoris.conexao.Conexao;
+
+public class AlunoDAO {
+
+	private PreparedStatement stmt;
+	private Connection con;
+	private ResultSet rs;
+	
+	public AlunoDAO()throws Exception{
+		con = Conexao.getConnection();
+	}
+	
+	//metodo que grava Aluno
+	public String gravarAluno(Aluno al)throws Exception{
+		stmt = con.prepareStatement("INSERT INTO T_ALUNO VALUES (sq_aluno.nextval, ?, ?, ?, ?, ?)");
+		stmt.setString(1, al.getNome());
+		stmt.setString(2, al.getEmail());
+		stmt.setString(3, al.getCpf());
+		stmt.setInt(4, al.getLogin().getCodigo());
+		stmt.setInt(5, al.getCurso().getCodigo());
+		stmt.executeUpdate();
+		return "Aluno cadastrado com Sucesso!";
+	}
+	
+	//metodo que consulta aluno pelo codigo
+	public Aluno consultaPorCodigo(int codigo)throws Exception{
+		stmt = con.prepareStatement("SELECT * FROM T_ALUNO WHERE CD_ALUNO = ?");
+		stmt.setInt(1, codigo);
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			return new Aluno(
+					rs.getInt("CD_ALUNO"),
+					rs.getString("NOME"),
+					rs.getString("EMAIL"),
+					rs.getString("CPF"),
+					new LoginDAO().consultaPorCodigo(rs.getInt("CD_LOGIN")),
+					new CursoDAO().consultaPorCodigo(rs.getInt("CD_CURSO")));
+		}
+		else {
+			return new Aluno();
+		}
+	}
+}

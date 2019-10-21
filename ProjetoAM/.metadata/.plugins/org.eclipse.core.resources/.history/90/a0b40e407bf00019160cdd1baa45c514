@@ -1,0 +1,5 @@
+package br.com.algoris.beans;
+
+public class Professor {
+
+}
