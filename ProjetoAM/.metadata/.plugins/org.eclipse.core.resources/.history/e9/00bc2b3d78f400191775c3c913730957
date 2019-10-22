@@ -142,9 +142,9 @@ public class CursoDAO {
 	}
 	
 	//metodo que deleta o curso pelo codigo
-	public String deletarCurso(Curso cur)throws Exception{
+	public String deletarLogin(int codigo)throws Exception{
 		stmt = con.prepareStatement("DELETE FROM T_CURSO WHERE CD_CURSO = ?");
-		stmt.setInt(1, cur.getCodigo());
+		stmt.setInt(1, codigo);
 		stmt.executeUpdate();
 		return "Curso Deletado!";
 	}

@@ -131,20 +131,19 @@ public class CursoDAO {
 	//metodo que faz a atualização do curso
 	public String atualizaCurso(Curso cur)throws Exception{
 		stmt = con.prepareStatement("UPDATE T_CURSO SET DESCRICAO = ?, CAMPUS = ?, CARGAHORARIA = ?, TIPOCURSO = ?" 
-				+ "WHERE CD_CURSO = ?");
+				+ "WHERE RM = ?");
 		stmt.setString(1, cur.getDescricao());
 		stmt.setString(2, cur.getCampus());
 		stmt.setString(3, cur.getCargaHoraria());
 		stmt.setString(4, cur.getTipoCurso());
-		stmt.setInt(5, cur.getCodigo());
 		stmt.executeUpdate();
 		return "Curso Atualizado!";
 	}
 	
 	//metodo que deleta o curso pelo codigo
-	public String deletarCurso(Curso cur)throws Exception{
+	public String deletarLogin(int codigo)throws Exception{
 		stmt = con.prepareStatement("DELETE FROM T_CURSO WHERE CD_CURSO = ?");
-		stmt.setInt(1, cur.getCodigo());
+		stmt.setInt(1, codigo);
 		stmt.executeUpdate();
 		return "Curso Deletado!";
 	}
