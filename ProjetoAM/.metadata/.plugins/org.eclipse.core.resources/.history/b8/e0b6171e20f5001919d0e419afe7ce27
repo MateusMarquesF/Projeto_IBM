@@ -165,9 +165,9 @@ public class AlunoDAO {
 	}
 	
 	//metodo que deleta o aluno
-	public String apagarAluno(Aluno al)throws Exception{
+	public String apagarAluno(int codigo)throws Exception{
 		stmt = con.prepareStatement("DELETE FROM T_ALUNO QHERE CD_ALUNO = ?");
-		stmt.setInt(1, al.getCodigo());
+		stmt.setInt(1, codigo);
 		stmt.executeUpdate();
 		return "Aluno excluido com Sucesso!";
 	}

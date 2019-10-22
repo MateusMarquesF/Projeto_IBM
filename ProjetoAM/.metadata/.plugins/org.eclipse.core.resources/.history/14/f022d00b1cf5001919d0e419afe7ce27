@@ -3,6 +3,7 @@ package br.com.algoris.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.algoris.beans.Curso;
 import br.com.algoris.beans.Login;
 import br.com.algoris.dao.LoginDAO;
 
@@ -96,7 +97,7 @@ public class LoginBO {
 	public String deletarLogin(Login log)throws Exception{
 		l = dao.consultaPorCodigo(log.getCodigo());
 		
-		if(log.getCodigo() > 0 ) {
+		if(l.getCodigo() > 0 ) {
 			resposta = dao.deletarLogin(log);
 		}else {
 			resposta = "Erro ao Deletar Login!";

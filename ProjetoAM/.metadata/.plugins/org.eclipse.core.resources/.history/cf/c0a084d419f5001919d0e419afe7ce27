@@ -49,7 +49,7 @@ public class CursoBO {
 		return resposta;
 	}
 	
-	public String cadastrarCurso(Curso cur)throws Exception{
+	public String cadastrarClinica(Curso cur)throws Exception{
 		
 		 resposta = verificaCampos(cur);
 		

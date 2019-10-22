@@ -3,6 +3,7 @@ package br.com.algoris.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.algoris.beans.Curso;
 import br.com.algoris.beans.Login;
 import br.com.algoris.dao.LoginDAO;
 
@@ -36,11 +37,11 @@ public class LoginBO {
 		return resposta;
 	}
 	
-	public String verificaExiste(Login log)throws Exception{
+	public String verificaExiste(Login l)throws Exception{
 		resposta = "VERIFICADO";
 		
-		l = dao.consultaPorCodigo(log.getCodigo());
-		if (log.getCodigo() > 0) {
+		l = dao.consultaPorCodigo(l.getCodigo());
+		if (l.getCodigo() > 0) {
 			dao.fechar();
 			return "Login Já Existe!";
 		}
@@ -48,25 +49,25 @@ public class LoginBO {
 		return resposta;
 	}
 	
-	public String cadastrarLogin(Login log)throws Exception{
+	public String cadastrarLogin(Login l)throws Exception{
 		
-		 resposta = verificaCampos(log);
+		 resposta = verificaCampos(l);
 		
 		if(resposta.equals("OK")) {
-			resposta = verificaExiste(log);
+			resposta = verificaExiste(l);
 		}
 		
 		if(resposta.equals("VERIFICADO")) {
-			if(log.getTipo().equals("ADMIN")) {
-				resposta = dao.gravarAdim(log);
+			if(l.getTipo().equals("ADMIN")) {
+				resposta = dao.gravarAdim(l);
 				dao.fechar();
 			}
-			else if(log.getTipo().equals("PROF")) {
-				resposta = dao.gravarProfessor(log);
+			else if(l.getTipo().equals("PROF")) {
+				resposta = dao.gravarProfessor(l);
 				dao.fechar();
 			}
 			else {
-				resposta = dao.gravarAluno(log);
+				resposta = dao.gravarAluno(l);
 				dao.fechar();
 			}
 				
@@ -76,13 +77,13 @@ public class LoginBO {
 
 }
 
-	public String atualizarSenha(Login log)throws Exception{
-		resposta = verificaCampos(log);
+	public String atualizarSenha(Login l)throws Exception{
+		resposta = verificaCampos(l);
 		
-		l = dao.consultaPorCodigo(log.getCodigo());
+		l = dao.consultaPorCodigo(l.getCodigo());
 		
-		if(log.getCodigo() > 0) {
-				resposta = dao.atualizaSenha(log);
+		if(l.getCodigo() > 0) {
+				resposta = dao.atualizaSenha(l);
 				dao.fechar();
 		}else {
 			dao.fechar();
@@ -93,11 +94,11 @@ public class LoginBO {
 		return resposta;
 	}
 
-	public String deletarLogin(Login log)throws Exception{
-		l = dao.consultaPorCodigo(log.getCodigo());
+	public String deletarLogin(Login l)throws Exception{
+		l = dao.consultaPorCodigo(l.getCodigo());
 		
-		if(log.getCodigo() > 0 ) {
-			resposta = dao.deletarLogin(log);
+		if(l.getCodigo() > 0 ) {
+			resposta = dao.gravarAdim(l);
 		}else {
 			resposta = "Erro ao Deletar Login!";
 		}

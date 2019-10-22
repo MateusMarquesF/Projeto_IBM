@@ -96,7 +96,7 @@ public class LoginBO {
 	public String deletarLogin(Login log)throws Exception{
 		l = dao.consultaPorCodigo(log.getCodigo());
 		
-		if(log.getCodigo() > 0 ) {
+		if(l.getCodigo() > 0 ) {
 			resposta = dao.deletarLogin(log);
 		}else {
 			resposta = "Erro ao Deletar Login!";

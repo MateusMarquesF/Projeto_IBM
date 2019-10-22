@@ -127,9 +127,9 @@ public class ProfessorDAO {
 	}
 	
 	//metodo que deleta o Professor
-	public String apagarProfessor(Professor prof)throws Exception{
+	public String apagarProfessor(int codigo)throws Exception{
 		stmt = con.prepareStatement("DELETE FROM T_PROFESSOR QHERE CD_PROFESSOR = ?");
-		stmt.setInt(1, prof.getCodigo());
+		stmt.setInt(1, codigo);
 		stmt.executeUpdate();
 		return "Professor excluido com Sucesso!";
 	}

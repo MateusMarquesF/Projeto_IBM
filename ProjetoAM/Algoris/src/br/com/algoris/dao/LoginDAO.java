@@ -108,9 +108,9 @@ public class LoginDAO {
 	}
 	
 	//metodo que deleta o login pelo codigo
-	public String deletarLogin(int codigo)throws Exception{
+	public String deletarLogin(Login log)throws Exception{
 		stmt = con.prepareStatement("DELETE FROM T_LOGIN WHERE CD_LOGIN = ?");
-		stmt.setInt(1, codigo);
+		stmt.setInt(1, log.getCodigo());
 		stmt.executeUpdate();
 		return "Login Deletado!";
 	}

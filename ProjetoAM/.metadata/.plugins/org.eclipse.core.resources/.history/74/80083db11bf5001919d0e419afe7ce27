@@ -1,0 +1,109 @@
+package br.com.algoris.bo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.algoris.beans.Curso;
+import br.com.algoris.beans.Login;
+import br.com.algoris.dao.LoginDAO;
+
+
+public class LoginBO {
+
+	private Login l;
+	private LoginDAO dao;
+	private String resposta;
+	private List<Login> lista;
+	
+	public LoginBO() throws Exception{
+		l = new Login();
+		dao = new LoginDAO();
+		lista = new ArrayList<Login>();
+	}
+	
+	public String verificaCampos(Login l)throws Exception{
+		resposta = "OK";
+		
+		if (l.getRm() == null || l.getRm() == "" || l.getRm().length() > 10)
+			return "Rm Inválido!";
+		if (l.getSenha() == null || l.getSenha() == "" || l.getSenha().length()>20)
+			return "Senha Inválido!";
+		if (l.getTipo() == null || l.getTipo() == "" || l.getTipo().length()>5)
+			return "Tipo login Inválido!";
+		
+		l.setRm(l.getRm().toUpperCase());
+		l.setTipo(l.getTipo().toUpperCase());
+		
+		return resposta;
+	}
+	
+	public String verificaExiste(Login l)throws Exception{
+		resposta = "VERIFICADO";
+		
+		l = dao.consultaPorCodigo(l.getCodigo());
+		if (l.getCodigo() > 0) {
+			dao.fechar();
+			return "Login Já Existe!";
+		}
+		
+		return resposta;
+	}
+	
+	public String cadastrarLogin(Login l)throws Exception{
+		
+		 resposta = verificaCampos(l);
+		
+		if(resposta.equals("OK")) {
+			resposta = verificaExiste(l);
+		}
+		
+		if(resposta.equals("VERIFICADO")) {
+			if(l.getTipo().equals("ADMIN")) {
+				resposta = dao.gravarAdim(l);
+				dao.fechar();
+			}
+			else if(l.getTipo().equals("PROF")) {
+				resposta = dao.gravarProfessor(l);
+				dao.fechar();
+			}
+			else {
+				resposta = dao.gravarAluno(l);
+				dao.fechar();
+			}
+				
+		}
+		
+		return resposta;
+
+}
+
+	public String atualizarCurso(Curso cur)throws Exception{
+		resposta = verificaCampos(cur);
+		
+		c = dao.consultaPorCodigo(cur.getCodigo());
+		
+		if(c.getCodigo() > 0) {
+				resposta = dao.atualizaCurso(cur);
+				dao.fechar();
+		}else {
+			dao.fechar();
+			return "Código Curso Inválido!";
+		}
+		
+		dao.fechar();
+		return resposta;
+	}
+
+	public String deletarCurso(Curso cur)throws Exception{
+		c = dao.consultaPorCodigo(cur.getCodigo());
+		
+		if(c.getCodigo() > 0 ) {
+			resposta = dao.deletarCurso(cur);
+		}else {
+			resposta = "Erro ao Deletar Curso!";
+		}
+		
+		dao.fechar();
+		return resposta;
+	}
+}
