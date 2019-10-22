@@ -1,0 +1,30 @@
+package br.com.algoris.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import br.com.algoris.beans.Professor;
+import br.com.algoris.conexao.Conexao;
+
+public class ProfessorDAO {
+
+	private Connection con;
+	private PreparedStatement stmt;
+	private ResultSet rs;
+	
+	public ProfessorDAO()throws Exception{
+		con = Conexao.getConnection();
+	}
+	
+	//metodo que inseri dados do Professor
+	public String gravarProfessor(Professor prof)throws Exception{
+		stmt = con.prepareStatement("INSERT INTO T_PROFESSOR VALUES(sq_professor.nextval,?,?,?,?)");
+		stmt.setString(1, prof.getNome());
+		stmt.setString(2, prof.getEmail());
+		stmt.setInt(3, prof.getLogin().getCodigo());
+		stmt.setInt(4, prof.getCurso().getCodigo());
+		stmt.executeUpdate();
+		return "Professor cadastrado com Sucesso!";
+	}
+}
